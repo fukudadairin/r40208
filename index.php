@@ -190,7 +190,7 @@ echo "</pre>";
                 </select>
             </div>
             <div class="float-end  pt-1 pb-3 pe-5">
-                <a href="./user_list.php"><button type="button" class="btn btn-primary">社員一覧に戻る</button></a>
+                <a href="./logout.php"><button type="button" class="btn btn-primary">社員一覧に戻る</button></a>
             </div>
 
             <table class="table">
