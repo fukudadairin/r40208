@@ -34,17 +34,22 @@ if ($yyyymm != date('Y-m')) {
 $day_count = date("t", strtotime($yyyymm));
 
 
+// $_SERVER["REQUEST_METHOD"] 現在のページにアクセスする際に使用されたメソッド（GETやメソッド）
 if ($_SERVER["REQUEST_METHOD"] == "POST") {
-    // echo "POST送信";
-    // $_SERVER["REQUEST_METHOD"] 現在のページにアクセスする際に使用されたメソッド（GETやメソッド）
 
+    // 勤怠モーダルで入力された時間を取得
     $modal_start_time = $_POST["modal_start_time"];
     $modal_end_time = $_POST["modal_end_time"];
     $modal_break_time = $_POST["modal_break_time"];
     $modal_comment = $_POST["modal_comment"];
+    
     // jsで編集ボタンをクリックした日にち
     $modal_target = $_POST["modal_target"];
+    if(empty($modal_target)){
+        $modal_target =date("Y-m-d");
+    }
 
+    
     $sql = "SELECT date,login_id,start_time,end_time,break_time,comment FROM work WHERE login_id =:aa AND date=:date limit 1";
     $stmt = $pdo->prepare($sql); //どれを使うのかを決める→SELECT文：INSERT文：UPDATE文：DELETE文：
     $stmt->bindValue(":aa", (int)$session_user["id"], PDO::PARAM_INT);
@@ -55,12 +60,8 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
     }
     $stmt->execute();
     $target = $stmt->fetch();
-    // $target_comment = $target["comment"];
-
-    // 
-    // echo "target_comment";
-    // var_dump($target_comment);
-    // 
+    var_dump(empty($modal_target));
+    var_dump($target);
 
 
     if ($target) {
@@ -116,7 +117,6 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
 
 
 // データベースから情報を引き抜いて一覧に表示
-
 $sql = "SELECT date,id,start_time,end_time,break_time,comment FROM work WHERE login_id =:login_id AND DATE_FORMAT(date,'%Y-%m')=:date";
 $stmt = $pdo->prepare($sql); //どれを使うのかを決める→SELECT文：INSERT文：UPDATE文：DELETE文：
 $stmt->bindValue(":login_id", (int)$session_user["id"], PDO::PARAM_INT);
@@ -149,14 +149,6 @@ if ($today_work) {
     $modal_comment = null;
 }
 
-
-// 検証パーツ
-
-// var_dump($modal_start_time);
-// var_dump($modal_end_time);
-// var_dump($modal_break_time);
-// var_dump($modal_comment);
-// var_dump($modal_target);
 
 echo "</pre>";
 ?>
