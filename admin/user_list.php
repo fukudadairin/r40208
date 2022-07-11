@@ -51,7 +51,12 @@ echo "</pre>";
 
     <section class="aaa">
         <form action="./index.php" class="admin_user_list">
-            <h2>社員リスト</h2>
+            <div class="float-start mt-1 mb-3 ms-5">
+                <p></p>
+            </div>
+            <div class="float-end  pt-1 pb-3 pe-5">
+                <a href="../logout.php"><button type="button" class="btn btn-primary">ログアウト</button></a>
+            </div>
             <table class="table">
                 <thead>
                     <tr class="bg-light">
@@ -76,10 +81,10 @@ echo "</pre>";
                         <tr>
                             <th scope="row" class="text-center"><?= $admin_user["login_id"] ?></th>
                             <td class="text-center"><a href="/r40208/admin/user_result.php?login_id=<?= $admin_user["login_id"] ?>"><?= $admin_user["name"] ?></a></td>
-                            <td class="text-center"><?php if ($admin_user["auth_type"] ==1) {
+                            <td class="text-center"><?php if ($admin_user["auth_type"] == 1) {
                                                         echo "管理者";
                                                     } else {
-                                                        echo "社員";
+                                                        echo "";
                                                     } ?></td>
                         </tr>
 

@@ -89,7 +89,7 @@ if ($_SERVER['REQUEST_METHOD'] == "POST") {
   <h1>勤怠管理</h1>
   <section class="login">
     <form class="login_from" method="post">
-      <h2>Login</h2>
+      <h2 class="fs-2 mt-3 mb-4">Login Page</h2>
       <div class="mb-3 from-group">
         <input type="text" class="form-control <?php if (isset($err["login_id"])) {
                                                   echo "is-invalid";

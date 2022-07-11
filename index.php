@@ -45,6 +45,8 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
     
     // jsで編集ボタンをクリックした日にち
     $modal_target = $_POST["modal_target"];
+
+    // 更新表示モーダル時の$modal_targetを指定
     if(empty($modal_target)){
         $modal_target =date("Y-m-d");
     }
@@ -60,9 +62,6 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
     }
     $stmt->execute();
     $target = $stmt->fetch();
-    var_dump(empty($modal_target));
-    var_dump($target);
-
 
     if ($target) {
         // var_dump("UPDATE");
@@ -182,7 +181,7 @@ echo "</pre>";
                 </select>
             </div>
             <div class="float-end  pt-1 pb-3 pe-5">
-                <a href="./logout.php"><button type="button" class="btn btn-primary">社員一覧に戻る</button></a>
+                <a href="./logout.php"><button type="button" class="btn btn-primary">ログアウト</button></a>
             </div>
 
             <table class="table">
