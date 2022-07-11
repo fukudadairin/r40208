@@ -6,19 +6,26 @@ require_once(dirname(__FILE__) . "/../function.php");
 session_start();
 $pdo  = connect_db();
 
+// $_REQUESTを使えば$_GETでも$_POSTでも値を受け取れる
+// admin/login.phpから"login_id"を取得
 if(isset($_REQUEST["login_id"])){
     $_SESSION["admin_loginID"] = $_REQUEST["login_id"];
     $admin_loginID = $_SESSION["admin_loginID"];
 }
 
+// admin/login.phpから"name"を取得
+if(isset($_SESSION["admin"])){
+    $admin_all = $_SESSION["admin"];
+    $admin_user_name = $admin_all["name"];
+}
+
+// 月を選ぶセレクトタブからの値を取得
 if (isset($_GET["m"])) {
     $select_month = $_GET["m"];
     $modal_month = date("n", strtotime($select_month));
-
 } else {
     $select_month = date('Y-m');
     $modal_month = date("n", strtotime($select_month));
-
 }
 
 $modal_start_time = null;
@@ -28,13 +35,13 @@ $modal_comment = null;
 
 
 if ($_SERVER["REQUEST_METHOD"] == "POST") {
-    // echo "POST送信";
-    // $_SERVER["REQUEST_METHOD"] 現在のページにアクセスする際に使用されたメソッド（GETやメソッド）
 
+    // $_SERVER["REQUEST_METHOD"] 現在のページにて使用されたメソッド（GETやメソッド）を判別
     $modal_start_time = $_POST["modal_start_time"];
     $modal_end_time = $_POST["modal_end_time"];
     $modal_break_time = $_POST["modal_break_time"];
     $modal_comment = $_POST["modal_comment"];
+    
     // jsで編集ボタンをクリックした日にち
     $modal_target = $_POST["modal_target"];
 
@@ -126,14 +133,6 @@ echo "</pre>";
 <!DOCTYPE html>
 <html lang="ja">
 
-
-
-
-
-
-
-
-
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -148,7 +147,7 @@ echo "</pre>";
 
     <section class="aaa">
         <form class="from" name="m">
-            <h2 class="mt-3">月別リスト</h2>
+            <h2 class="mt-3">月別リスト：<?= $admin_user_name ?></h2>
 
             <div class="float-start mt-1 mb-3 ms-5">
                 <select class="form-select rounded-pill mb-3" aria-label="Default select example" name="m" onchange="submit(this.from)">
@@ -276,36 +275,27 @@ echo "</pre>";
                     </div>
                 </div>
             </div>
-
         </form>
-
-
     </section>
 
-    
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/js/bootstrap.bundle.min.js" integrity="sha384-ka7Sk0Gln4gmtz2MlQnikT1wXgYsOg+OMhuP+IlRH9sENBO0LRn5q+8nbTov4+1p" crossorigin="anonymous"></script>
     <script src="../script.js"></script>
     <script>
        
+        // show.bs.modal：モーダル・ダイアログを開くshowメソッドを呼び出した時のイベント。
         $("#inputModal").on("show.bs.modal", function(event) {
-            // show.bs.modal：モーダル・ダイアログを開くshowメソッドを呼び出した時のイベント。
+            
+            // relatedTargetで各要素を見つける
             var button = $(event.relatedTarget);
-            var target_day = button.data("day");
-            console.log(target_day);
 
+            var target_day = button.data("day");
             var day = button.closest("tr").children("th")[0].innerText;
             var target_month = button.data("target_month");
-            // console.log(day); 
-            // console.log(target_month); 
-
             var start_time = button.closest("tr").children("td")[0].innerText
             var end_time = button.closest("tr").children("td")[1].innerText
             var break_time = button.closest("tr").children("td")[2].innerText
             var comment = button.closest("tr").children("td")[3].innerText
-            // console.log(start_time); 
-            // console.log(comment); 
-
             var comment = button.closest("tr").children("td")[3].innerText
 
             $("#modal_day").text(target_month + day)
@@ -316,11 +306,6 @@ echo "</pre>";
             $("#modal_comment").val(comment)
             // $("#modal_comment").val(sample)
             $("#target_date").val(target_day)
-
-            // $("#modal_start_time").removeClass("is-invalid")
-            // $("#modal_end_time").removeClass("is-invalid")
-            // $("#modal_break_time").removeClass("is-invalid")
-            // $("#modal_comment").removeClass("is-invalid")
 
         });
     </script>

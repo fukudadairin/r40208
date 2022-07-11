@@ -24,13 +24,8 @@ $_SESSION["admin_listCount"] = $admin_listCount;
 $admin_listCount = $_SESSION["admin_listCount"];
 $admin_listCount = $admin_listCount["COUNT(*)"];
 
-// 検証用
-// var_dump($admin_all_user);
-// var_dump($admin_all_user[$i]);
-// var_dump($_SESSION);
 
 echo "</pre>";
-
 ?>
 
 
@@ -55,7 +50,7 @@ echo "</pre>";
                 <p></p>
             </div>
             <div class="float-end  pt-1 pb-3 pe-5">
-                <a href="../logout.php"><button type="button" class="btn btn-primary">ログアウト</button></a>
+                <a href="./logout.php"><button type="button" class="btn btn-primary">ログアウト</button></a>
             </div>
             <table class="table">
                 <thead>

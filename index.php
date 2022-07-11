@@ -169,7 +169,8 @@ echo "</pre>";
 
     <section class="target_month">
         <form class="from">
-            <h2>月別リスト</h2>
+            <h2>月別リスト：<?=  $session_user['name'] ?>
+            </h2>
             <div class="float-start mt-1 mb-3 ms-5">
                 <select class="form-select rounded-pill mb-3" aria-label="Default select example" name="m" onchange="submit(this.from)">
                     <option value="<?= date("Y-m") ?>"><?= date("Y/m") ?></option>
@@ -310,27 +311,18 @@ echo "</pre>";
             inputModal.toggle();
         <?php  }; ?>
 
-
-
+        // show.bs.modal：モーダル・ダイアログを開くshowメソッドを呼び出した時のイベント。
         $("#inputModal").on("show.bs.modal", function(event) {
-            // show.bs.modal：モーダル・ダイアログを開くshowメソッドを呼び出した時のイベント。
             var button = $(event.relatedTarget);
-            var target_day = button.data("day");
-            console.log(target_day);
 
-            var day = button.closest("tr").children("th")[0].innerText;
             var target_month = button.data("target_month");
-            // console.log(day); 
-            // console.log(target_month); 
-
+            var day = button.closest("tr").children("th")[0].innerText;
             var start_time = button.closest("tr").children("td")[0].innerText
             var end_time = button.closest("tr").children("td")[1].innerText
             var break_time = button.closest("tr").children("td")[2].innerText
             var comment = button.closest("tr").children("td")[3].innerText
-            // console.log(start_time); 
-            // console.log(comment); 
-
             var comment = button.closest("tr").children("td")[3].innerText
+            var target_day = button.data("day");
 
             $("#modal_day").text(target_month + day)
             $("#modal_target").val(target_day)
@@ -338,13 +330,8 @@ echo "</pre>";
             $("#modal_end_time").val(end_time)
             $("#modal_break_time").val(break_time)
             $("#modal_comment").val(comment)
-            // $("#modal_comment").val(sample)
             $("#target_date").val(target_day)
-
-            // $("#modal_start_time").removeClass("is-invalid")
-            // $("#modal_end_time").removeClass("is-invalid")
-            // $("#modal_break_time").removeClass("is-invalid")
-            // $("#modal_comment").removeClass("is-invalid")
+            // $("#modal_comment").val(sample)
 
         });
     </script>
