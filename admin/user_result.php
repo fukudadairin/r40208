@@ -3,6 +3,7 @@ echo "<pre>";
 
 require_once(dirname(__FILE__) . "/../config/config.php");
 require_once(dirname(__FILE__) . "/../function.php");
+
 session_start();
 $pdo  = connect_db();
 
@@ -27,6 +28,17 @@ if (isset($_GET["m"])) {
     $select_month = date('Y-m');
     $modal_month = date("n", strtotime($select_month));
 }
+
+// リストで選択した社員の名前を取得
+if (isset($_GET["login_id"])) {
+    $list_name = $_GET["login_id"];
+    $sql = "SELECT name FROM user WHERE login_id =:login_id limit 1";
+    $stmt = $pdo->prepare($sql); 
+    $stmt->bindValue(":login_id", (int)$list_name, PDO::PARAM_INT);
+    $stmt->execute();
+    $list_target = $stmt->fetch();
+}
+
 
 $modal_start_time = null;
 $modal_end_time = null;
@@ -121,7 +133,7 @@ $stmt->bindValue(":login_id", (int)$admin_loginID, PDO::PARAM_INT);
 $stmt->bindValue(":date", $select_month, PDO::PARAM_STR);
 $stmt->execute();
 $work_list = $stmt->fetchAll(PDO::FETCH_UNIQUE);
-// var_dump($work_list);
+
 
 $day_count = date("t", strtotime($select_month));
 
@@ -147,7 +159,7 @@ echo "</pre>";
 
     <section class="aaa">
         <form class="from" name="m">
-            <h2 class="mt-3">月別リスト：<?= $admin_user_name ?></h2>
+            <h2 class="mt-3">月別リスト：<?= $list_target["name"] ?></h2>
 
             <div class="float-start mt-1 mb-3 ms-5">
                 <select class="form-select rounded-pill mb-3" aria-label="Default select example" name="m" onchange="submit(this.from)">
