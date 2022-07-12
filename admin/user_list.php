@@ -14,7 +14,6 @@ $admin_all_user = $stmt->fetchAll(PDO::FETCH_UNIQUE);
 $_SESSION["admin_all_user"] = $admin_all_user;
 $admin_all_user = $_SESSION["admin_all_user"];
 
-
 $pdo  = connect_db();
 $sql = "SELECT COUNT(*) FROM user";
 $stmt = $pdo->prepare($sql);
@@ -23,7 +22,6 @@ $admin_listCount = $stmt->fetch();
 $_SESSION["admin_listCount"] = $admin_listCount;
 $admin_listCount = $_SESSION["admin_listCount"];
 $admin_listCount = $admin_listCount["COUNT(*)"];
-
 
 echo "</pre>";
 ?>
